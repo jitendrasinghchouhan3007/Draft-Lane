@@ -81,16 +81,16 @@ function BlogListPage() {
         setError('')
         setBlogs((currentBlogs) => {
           if (viewMode !== 'infinite' || requestedPage === 1) {
-            return data.blogs
+            return data
           }
 
           const knownIds = new Set(currentBlogs.map((blog) => blog.id))
-          const nextBlogs = data.blogs.filter((blog) => !knownIds.has(blog.id))
+          const nextBlogs = data.filter((blog) => !knownIds.has(blog.id))
           return [...currentBlogs, ...nextBlogs]
         })
-        setPagination(data.pagination)
-        setTags(data.tags)
-        setHasMoreBlogs(data.pagination.page < data.pagination.totalPages)
+        setPagination(initialPagination)
+        setTags([])
+        setHasMoreBlogs(false)
       })
       .catch((loadError) => {
         if (loadError.name === 'AbortError') {
@@ -229,7 +229,7 @@ function BlogListPage() {
 
       {loading ? <div className="center-panel">Loading posts...</div> : null}
 
-        {!loading && !error && !blogs.length ? (
+      {!loading && !error && !blogs.length ? (
         <section className="surface-card empty-state">
           <h2>No posts matched that view.</h2>
           <p>Try a shorter title search or clear the active tag filter.</p>

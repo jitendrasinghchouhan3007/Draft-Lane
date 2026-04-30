@@ -20,7 +20,7 @@ function BlogCard({ blog }) {
 
       <div className="blog-card__footer">
         <div className="tag-row">
-          {blog.tags.map((tag) => (
+          {(blog.tags ?? []).map((tag) => (
             <span key={tag} className="tag-pill">
               {tag}
             </span>

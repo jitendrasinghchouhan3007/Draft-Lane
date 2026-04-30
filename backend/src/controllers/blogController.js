@@ -3,6 +3,14 @@ import Comment from '../models/Comment.js'
 import { httpError } from '../utils/httpError.js'
 import { getExcerpt, normalizeTags } from '../utils/text.js'
 
+function disableResponseCaching(res) {
+  res.set({
+    'Cache-Control': 'no-store, max-age=0',
+    'CDN-Cache-Control': 'no-store',
+    'Vercel-CDN-Cache-Control': 'no-store',
+  })
+}
+
 function formatAuthor(author) {
   if (!author) {
     return null
@@ -57,6 +65,8 @@ function validateBlogInput(title, content, next) {
 }
 
 export async function listBlogs(req, res) {
+  disableResponseCaching(res)
+
   const page = Math.max(Number.parseInt(req.query.page || '1', 10), 1)
   const limit = Math.min(Math.max(Number.parseInt(req.query.limit || '6', 10), 1), 12)
   const search = req.query.search?.trim()
@@ -94,6 +104,8 @@ export async function listBlogs(req, res) {
 }
 
 export async function getBlogById(req, res, next) {
+  disableResponseCaching(res)
+
   const blog = await Blog.findById(req.params.id).populate('author', 'name bio createdAt')
 
   if (!blog) {

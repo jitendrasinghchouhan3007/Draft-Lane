@@ -229,14 +229,14 @@ function BlogListPage() {
 
       {loading ? <div className="center-panel">Loading posts...</div> : null}
 
-      {!loading && !error && !blogs.length ? (
+    {!loading && !error && (!blogs || blogs.length === 0) ? (
         <section className="surface-card empty-state">
           <h2>No posts matched that view.</h2>
           <p>Try a shorter title search or clear the active tag filter.</p>
         </section>
       ) : null}
 
-      {blogs.length > 0 ? (
+    {blogs && blogs.length > 0 ? (
         <>
           <div className="results-row">
             <p>{pagination.totalBlogs} posts found</p>

@@ -1,8 +1,15 @@
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
+const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim()
+const isLocalHost =
+  typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname)
+const apiBaseUrl = import.meta.env.PROD && !isLocalHost ? '/api' : configuredApiBaseUrl || '/api'
 let unauthorizedHandler = null
 
 function buildUnexpectedResponseMessage(contentType) {
   if (contentType.includes('text/html')) {
+    if (apiBaseUrl === '/api') {
+      return 'The app reached HTML instead of the API. On Vercel, set VITE_API_BASE_URL to your deployed backend URL ending in /api so the frontend rewrite can proxy /api correctly.'
+    }
+
     return `The app reached HTML instead of the API. Set VITE_API_BASE_URL to your deployed backend URL ending in /api. Current base: ${apiBaseUrl}`
   }
 

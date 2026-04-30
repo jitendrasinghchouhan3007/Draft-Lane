@@ -24,6 +24,14 @@ app.use(express.json({ limit: '1mb' }))
 app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 
+app.get('/', (req, res) => {
+  res.json({
+    status: 'ok',
+    message: 'DraftLane backend is running.',
+    health: '/api/health',
+  })
+})
+
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' })
 })

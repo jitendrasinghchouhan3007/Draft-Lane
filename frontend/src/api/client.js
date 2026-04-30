@@ -1,6 +1,14 @@
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
 let unauthorizedHandler = null
 
+function buildUnexpectedResponseMessage(contentType) {
+  if (contentType.includes('text/html')) {
+    return `The app reached HTML instead of the API. Set VITE_API_BASE_URL to your deployed backend URL ending in /api. Current base: ${apiBaseUrl}`
+  }
+
+  return 'The API returned an unexpected response format.'
+}
+
 function buildQueryString(params) {
   const searchParams = new URLSearchParams()
 
@@ -34,7 +42,8 @@ async function request(path, options = {}) {
   })
 
   const contentType = response.headers.get('content-type') || ''
-  const payload = contentType.includes('application/json') ? await response.json() : null
+  const isJsonResponse = contentType.includes('application/json')
+  const payload = isJsonResponse ? await response.json() : null
 
   if (response.status === 401 && token && unauthorizedHandler) {
     unauthorizedHandler()
@@ -42,6 +51,10 @@ async function request(path, options = {}) {
 
   if (!response.ok) {
     throw new Error(payload?.message || 'Request failed. Please try again.')
+  }
+
+  if (!isJsonResponse) {
+    throw new Error(buildUnexpectedResponseMessage(contentType))
   }
 
   return payload

@@ -79,18 +79,21 @@ function BlogListPage() {
       .list({ page: requestedPage, search: debouncedSearch, tag: selectedTag, signal: controller.signal })
       .then((data) => {
         setError('')
+        const blogs = Array.isArray(data.blogs) ? data.blogs : []
+        const pagination = data.pagination ?? initialPagination
+        const tags = Array.isArray(data.tags) ? data.tags : []
         setBlogs((currentBlogs) => {
           if (viewMode !== 'infinite' || requestedPage === 1) {
-            return data
+            return blogs
           }
 
           const knownIds = new Set(currentBlogs.map((blog) => blog.id))
-          const nextBlogs = data.filter((blog) => !knownIds.has(blog.id))
+          const nextBlogs = blogs.filter((blog) => !knownIds.has(blog.id))
           return [...currentBlogs, ...nextBlogs]
         })
-        setPagination(initialPagination)
-        setTags([])
-        setHasMoreBlogs(false)
+        setPagination(pagination)
+        setTags(tags)
+        setHasMoreBlogs(pagination.page < pagination.totalPages)
       })
       .catch((loadError) => {
         if (loadError.name === 'AbortError') {
@@ -229,14 +232,14 @@ function BlogListPage() {
 
       {loading ? <div className="center-panel">Loading posts...</div> : null}
 
-    {!loading && !error && (!blogs || blogs.length === 0) ? (
+        {!loading && !error && !blogs.length ? (
         <section className="surface-card empty-state">
           <h2>No posts matched that view.</h2>
           <p>Try a shorter title search or clear the active tag filter.</p>
         </section>
       ) : null}
 
-    {blogs && blogs.length > 0 ? (
+      {blogs.length > 0 ? (
         <>
           <div className="results-row">
             <p>{pagination.totalBlogs} posts found</p>

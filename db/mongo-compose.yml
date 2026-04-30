@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: blog-management-mongo
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - blog-management-mongo-data:/data/db
+
+volumes:
+  blog-management-mongo-data:

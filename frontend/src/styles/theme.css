@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;500;600;700&display=swap');
+
+:root {
+  font-family: var(--font-body);
+  line-height: 1.5;
+  font-weight: 500;
+  color-scheme: light;
+  --font-body: 'Manrope', sans-serif;
+  --font-display: 'Newsreader', serif;
+  --paper: #f7efe5;
+  --ink-main: #2b201d;
+  --ink-soft: #6e5b54;
+  --accent-main: #bf6545;
+  --sage-main: #4d7c64;
+  --danger-main: #9d3b32;
+  --surface: rgba(255, 249, 241, 0.92);
+  --surface-strong: rgba(255, 252, 248, 0.96);
+  --header-bg: rgba(255, 248, 238, 0.86);
+  --border-soft: rgba(93, 57, 37, 0.12);
+  --border-faint: rgba(93, 57, 37, 0.1);
+  --border-strong: rgba(93, 57, 37, 0.16);
+  --accent-soft: rgba(191, 101, 69, 0.12);
+  --tag-surface: rgba(250, 237, 225, 0.9);
+  --shadow-soft: 0 18px 40px rgba(93, 57, 37, 0.08);
+  --card-shadow: 0 22px 48px rgba(93, 57, 37, 0.08);
+  --glow-top: rgba(225, 114, 84, 0.2);
+  --glow-bottom: rgba(77, 124, 100, 0.18);
+  --grid-line: rgba(93, 57, 37, 0.035);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink-main);
+  background:
+    radial-gradient(circle at top, var(--glow-top), transparent 32%),
+    radial-gradient(circle at bottom left, var(--glow-bottom), transparent 28%),
+    linear-gradient(180deg, #fcf6ee 0%, var(--paper) 100%);
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5), transparent 88%);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --paper: #17181b;
+  --ink-main: #f4efe7;
+  --ink-soft: #c6b7ab;
+  --accent-main: #e08661;
+  --sage-main: #7ab292;
+  --danger-main: #ef8e7f;
+  --surface: rgba(31, 33, 37, 0.92);
+  --surface-strong: rgba(24, 25, 28, 0.96);
+  --header-bg: rgba(24, 25, 28, 0.9);
+  --border-soft: rgba(244, 239, 231, 0.12);
+  --border-faint: rgba(244, 239, 231, 0.09);
+  --border-strong: rgba(244, 239, 231, 0.16);
+  --accent-soft: rgba(224, 134, 97, 0.16);
+  --tag-surface: rgba(58, 49, 45, 0.9);
+  --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.34);
+  --card-shadow: 0 22px 48px rgba(0, 0, 0, 0.28);
+  --glow-top: rgba(224, 134, 97, 0.12);
+  --glow-bottom: rgba(122, 178, 146, 0.12);
+  --grid-line: rgba(244, 239, 231, 0.035);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+#root {
+  min-height: 100vh;
+}
